@@ -9,8 +9,9 @@
     │                      ↓ Packet (Claude 지시문)
     ├── Claude Code ────── 실행 + 기록 (유일한 쓰기)
     │   ├── Git push ──→ GitHub ──→ GitHub Pages
-    │   ├── STATE.md 갱신
-    │   └── Evidence 백업
+    │   ├── STATE.md 갱신 (고수준 상태)
+    │   ├── LOG append (상세 시간순 기록)
+    │   └── Evidence 백업 (원본 대화)
     │                      ↑ GitHub Pages URL (읽기)
     ├── Gemini Pro ─────── 대량 검증 (100만 토큰)
     └── Perplexity Pro ─── 리서치 + 교차검증
@@ -28,7 +29,8 @@ C:\dev\
 │   │   │   ├── skills/             ← /sync, /handoff, /status
 │   │   │   └── agents/             ← architect, reviewer
 │   │   ├── context\
-│   │   │   └── STATE.md            ← ★ SoT (단일 진실 소스)
+│   │   │   ├── STATE.md            ← ★ SoT (단일 진실 소스)
+│   │   │   └── logs\YYYY-MM-DD.md  ← 상세 시간순 기록 (중앙)
 │   │   └── scripts\
 │   │       └── copy-session-log.py ← Evidence 백업
 │   ├── 02_portfolio\               ← Git repo (GitHub: portfolio_20260215)
