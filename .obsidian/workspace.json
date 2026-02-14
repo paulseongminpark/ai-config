@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "gemini/validation_checklist.md",
+                "file": "perplexity/spaces/portfolio.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "validation_checklist"
+              "title": "portfolio"
             }
           }
         ]
@@ -183,19 +183,38 @@
   },
   "active": "2332c97dc7234d2f",
   "lastOpenFiles": [
-    "gemini/master_prompt.md",
+    "claude/hierarchy.md",
+    "docs/decisions.md",
+    "docs/decisions.md.tmp.31276.1771088068934",
+    "perplexity/spaces/orchestration.md",
+    "docs/daily-workflow.md",
+    "docs/daily-workflow.md.tmp.31276.1771088018670",
+    "docs/git-workflow.md",
+    "docs/git-workflow.md.tmp.31276.1771087984901",
     "gemini/validation_checklist.md",
-    "handoff_templates/to_perplexity.md",
-    "handoff_templates/to_perplexity.md.tmp.31276.1771087174204",
-    "handoff_templates/to_gemini.md",
-    "handoff_templates/to_gemini.md.tmp.31276.1771087171687",
-    "handoff_templates/to_gpt.md",
-    "handoff_templates/to_gpt.md.tmp.31276.1771087169633",
+    "gemini/master_prompt.md",
+    "docs/philosophy.md",
+    "docs/INDEX.md",
+    "docs/claude-code-guide.md",
+    "docs/architecture.md",
+    "docs/ai-roles.md",
+    "docs/claude-code-guide.md.tmp.31276.1771087953665",
+    "docs/ai-roles.md.tmp.31276.1771087909424",
+    "docs/philosophy.md.tmp.31276.1771087862513",
     "gpt/master_prompt.md",
+    "docs/architecture.md.tmp.31276.1771087818667",
     "perplexity/research_template.md",
+    "perplexity/spaces/portfolio.md",
+    "perplexity/spaces/orchestration.md.tmp.31276.1771087764804",
+    "perplexity/master_prompt.md",
+    "perplexity/master_prompt.md.tmp.31276.1771087760432",
+    "gpt/projects/cowork.md",
+    "gpt/projects/portfolio.md",
+    "gpt/projects/portfolio.md.tmp.31276.1771087753426",
+    "handoff_templates/to_perplexity.md",
+    "handoff_templates/to_gemini.md",
+    "handoff_templates/to_gpt.md",
     "projects/orchestration/STATE.md",
-    "gemini/validation_checklist.md.tmp.31276.1771087162741",
-    "gemini/master_prompt.md.tmp.31276.1771087157314",
     "projects/portfolio/STATE.md"
   ]
 }
