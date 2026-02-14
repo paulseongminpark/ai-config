@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "projects/portfolio/STATE.md",
+                "file": "gemini/validation_checklist.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "STATE"
+              "title": "validation_checklist"
             }
           }
         ]
@@ -183,7 +183,19 @@
   },
   "active": "2332c97dc7234d2f",
   "lastOpenFiles": [
+    "gemini/master_prompt.md",
+    "gemini/validation_checklist.md",
+    "handoff_templates/to_perplexity.md",
+    "handoff_templates/to_perplexity.md.tmp.31276.1771087174204",
+    "handoff_templates/to_gemini.md",
+    "handoff_templates/to_gemini.md.tmp.31276.1771087171687",
+    "handoff_templates/to_gpt.md",
+    "handoff_templates/to_gpt.md.tmp.31276.1771087169633",
+    "gpt/master_prompt.md",
+    "perplexity/research_template.md",
     "projects/orchestration/STATE.md",
+    "gemini/validation_checklist.md.tmp.31276.1771087162741",
+    "gemini/master_prompt.md.tmp.31276.1771087157314",
     "projects/portfolio/STATE.md"
   ]
 }
