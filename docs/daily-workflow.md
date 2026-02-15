@@ -1,126 +1,192 @@
 # 일일 워크플로우
 
-## 아침: 상태 파악
+## 핵심 규칙 (먼저 읽기)
 
-### 1. Claude Code에서 `/morning`
+| 규칙 | 이유 |
+|------|------|
+| **프로젝트 폴더에서 `claude` 열기** | `.claude/` 설정이 로드됨. `C:\`에서 열면 안 먹음 |
+| **의미 있는 작업마다 `/sync`** | STATE + LOG 갱신 + push. 안 하면 기록 유실 |
+| **1세션 = 1프로젝트** | 컨텍스트 오염 방지 |
+| **Obsidian에서 STATE 편집 금지** | Claude Code만 쓴다 (SoT 규칙) |
+| **로그 파일 읽기 요청 금지** | 토큰 낭비. 필요하면 Obsidian에서 직접 보기 |
+
+---
+
+## 아침: 시작
+
+### 1. 프로젝트 폴더에서 Claude Code 열기
+
+```bash
+cd C:\dev\01_projects\01_orchestration
+claude
+```
+또는
+```bash
+cd C:\dev\01_projects\02_portfolio
+claude
+```
+
+**절대 `C:\`에서 열지 않는다.** 프로젝트 폴더에서 열어야:
+- `.claude/CLAUDE.md` 로드됨
+- `settings.json` (permissions, hooks) 활성화됨
+- Skills (/sync, /status 등) 사용 가능
+
+### 2. `/morning` 입력
 
 ```
 > /morning
 ```
 
-→ 모든 프로젝트 STATE.md 읽고 한줄 요약 출력:
+→ 모든 프로젝트 STATE.md 읽고 한줄 요약:
 ```
-오케: 완료 6 / 진행 0 / 막힌것 0 — Phase 1-6 완료
-포트: 완료 3 / 진행 2 / 막힌것 1 — Empty House 이미지 작업 중
+오케: 완료 13 / 진행 0 / 막힌것 0 — Phase 1-6 완료
+포트: 완료 6 / 진행 0 / 막힌것 4 — W6부터 재개
 추천: 포트폴리오 막힌 것 해결 우선
 ```
 
-### 2. GPT에서 "today"
+### 3. (선택) GPT에서 "today"
 
-```
-> today
-```
-
-→ GPT가 두 STATE URL 읽고 합쳐서 현황 출력
+→ GPT가 GitHub Pages URL로 STATE 2개 읽고 현황 출력
 → tracker 모드로 오늘 할 일 정리
 
-### 3. Obsidian에서 STATE 확인
+### 4. (선택) Obsidian 확인
 
-- `projects/orchestration/STATE.md` 열기
-- `projects/portfolio/STATE.md` 열기
-- Junction으로 실시간 최신 상태
+- `projects/orchestration/STATE.md` — 실시간 최신
+- `projects/portfolio/STATE.md` — 실시간 최신
+- `docs/` — 아키텍처 학습 문서
 
-## 작업 중: AI 협업 루프
+---
 
-### 패턴 A: 단순 실행 (Claude만)
+## 작업 중: 4가지 패턴
+
+### 패턴 A: 단순 작업 (Claude만)
 
 ```
-사용자 → Claude Code: "OO 수정해"
-Claude Code: 수정 → commit → push
-사용자 → Claude Code: "/sync"
+나: "OO 수정해"
+Claude: 수정 → 커밋
+나: "/sync"
 ```
 
-### 패턴 B: 설계 필요 (GPT + Claude)
+가장 흔한 패턴. 대부분의 작업이 이것.
+
+### 패턴 B: 설계가 필요할 때 (GPT → Claude)
 
 ```
 1. GPT에서 토론
-   사용자: "이 기능 어떻게 구현하면 좋을까?"
+   나: "이 기능 어떻게?"
    GPT: 옵션 A vs B 비교 (Canvas)
 
-2. 결정 후 Packet 생성
-   GPT: [PACKET] PROJECT=portfolio AGENT=@executor ...
+2. GPT가 Packet 생성
+   [PACKET]
+   PROJECT=portfolio
+   AGENT: @executor
+   EVENTS: [Decision] lazy loading 적용
+   STATE_UPDATES: W7 완료 처리
+   EXECUTE: src/ui3/Page.tsx 수정
+   [/PACKET]
 
-3. 사용자 승인 → Claude Code에 붙여넣기
+3. 나: 승인
 
-4. Claude 실행
-   Claude: 코드 수정 → commit → push
+4. Claude Code에 붙여넣기
+   나: "AGENT: @executor
+        READ_ALLOW: src/ui3/Page.tsx
+        CHANGE_ONLY: src/ui3/Page.tsx
+        실행해"
+
+5. Claude: 실행 → 커밋
+6. 나: "/sync"
 ```
 
-### 패턴 C: 리서치 필요 (Perplexity + Claude)
+### 패턴 C: 리서치가 필요할 때 (Perplexity → Claude)
 
 ```
-1. Perplexity Space에서 질문
-   "Claude Code hooks에서 파일 경로 필터링 하는 법은?"
+1. Perplexity Space (오케스트레이션 또는 포트폴리오)에서 질문
+   나: "React 19 Suspense 적용법은?"
 
-2. 결과 확인 ([perplexity-research] 형식)
+2. 결과 받기 ([perplexity-research] 형식 + 소스 URL)
 
-3. Claude 실행 지침을 Claude Code에 전달
+3. Claude Code에 전달
+   나: "Perplexity 결과야: [붙여넣기]. 이대로 실행해"
+
+4. Claude: 실행 → 커밋
+5. 나: "/sync"
 ```
 
-### 패턴 D: 대량 검증 (Gemini + Claude)
+### 패턴 D: 대량 검증 (Gemini → Claude)
 
 ```
-1. 코드 전체를 Gemini에 전달
-   "이 프로젝트의 전체 구조를 검증해줘"
+1. Gemini에 코드/구조 전달
+   나: "이 프로젝트 전체 검증해줘" + STATE URL
 
-2. [gemini-review] 결과 확인
+2. [gemini-review] 결과 받기
+   통과: 5 / 실패: 2
 
-3. 실패 항목을 Claude Code로 수정
+3. Claude Code에서 수정
+   나: "Gemini 리뷰 결과야: [붙여넣기]. 실패 항목 수정해"
+
+4. /sync
 ```
 
-## 작업 후: 기록
+---
 
-### /sync (매 작업 완료 시)
+## /sync — 가장 중요한 습관
 
 ```
 > /sync
 ```
 
-→ STATE.md 갱신 → git commit → auto-push → GitHub Pages 갱신
+**하는 일:**
+1. `context/STATE.md` 읽기 → 완료/다음/막힌것 갱신
+2. `context/logs/YYYY-MM-DD.md`에 시간+작업+결정 append (읽기 없음, echo만)
+3. `git add context/ && git commit && git push`
+4. GitHub Pages 자동 갱신 (~1분)
 
-### Evidence (자동)
+**언제 하는가:**
+- 의미 있는 작업 완료 후 (매번)
+- 프로젝트 전환 전
+- **세션 종료 전 (필수)**
 
-- 세션 종료 시 Stop hook이 자동으로 `copy-session-log.py` 실행
-- `03_evidence/claude/{project}/{date}.md` 생성
+---
 
 ## 멀티AI 핸드오프
 
-### Claude → GPT (설계 토론 필요 시)
+### Claude → 다른 AI
 
 ```
-> /handoff gpt "포트폴리오 네비게이션 구조 재설계 논의"
-```
-
-→ 현재 STATE + 요청 내용이 포함된 핸드오프 문서 생성
-→ GPT에 붙여넣기
-
-### Claude → Perplexity (리서치 필요 시)
-
-```
+> /handoff gpt "포트폴리오 네비게이션 재설계 논의"
 > /handoff perplexity "React 19 Suspense 적용 방법"
+> /handoff gemini "전체 폴더 구조 규칙 검증"
+```
+→ 핸드오프 문서 생성 → 복사 → 해당 AI에 붙여넣기
+
+### 다른 AI → Claude
+
+결과 복사 → Claude Code에 붙여넣기 + "실행해"
+
+---
+
+## 프로젝트 전환
+
+```
+나: "/sync"                          ← 현재 프로젝트 마무리
+(터미널에서)
+cd C:\dev\01_projects\02_portfolio   ← 프로젝트 이동
+claude                               ← 새 세션 시작
 ```
 
-→ 리서치 요청 템플릿 생성
-→ Perplexity Space에 붙여넣기
+**1세션 = 1프로젝트.** 전환 시 반드시 새 세션.
 
-### Claude → Gemini (검증 필요 시)
+---
+
+## 세션 종료
 
 ```
-> /handoff gemini "전체 폴더 구조 규칙 준수 검증"
+나: "/sync"           ← STATE + LOG 갱신 + push (필수)
+(세션 닫기)
+→ Stop hook 자동      ← Evidence 백업 (copy-session-log.py)
 ```
 
-→ 검증 체크리스트 포함 핸드오프 문서 생성
-→ Gemini에 붙여넣기
+---
 
 ## 주간 루틴
 
@@ -130,30 +196,44 @@ Claude Code: 수정 → commit → push
 | 수 | Gemini로 중간 검증 (구조, STATE 정합성) |
 | 금 | `/sync` 최종 → STATE에 주간 회고 추가 |
 
+---
+
 ## 트러블슈팅
 
 ### "STATE.md가 GitHub Pages에 반영 안 됨"
-
 1. `git log --oneline -1` → 최신 커밋 확인
-2. `git push origin main` → 수동 push
-3. GitHub repo → Actions 탭 → 빌드 상태 확인
-4. 1-2분 대기 (Pages 갱신 지연)
+2. 수동 push: orchestration은 `git push origin main`, portfolio는 `git push origin master`
+3. 1-2분 대기 (Pages 갱신 지연)
 
 ### "Obsidian에서 STATE가 안 보임"
-
 1. Junction 확인: `dir C:\dev\02_ai_config\projects\`
-2. Junction이 깨졌으면 재생성:
-   ```
-   cmd /c mklink /J "대상경로" "원본경로"
-   ```
+2. 재생성: `powershell -Command "cmd /c 'mklink /J \"대상\" \"원본\"'"`
 
-### "Claude Code가 CLAUDE.md를 너무 많이 읽는 것 같다"
+### "프로젝트 설정이 안 먹음"
+→ `C:\`에서 열었을 가능성 높음. 프로젝트 폴더에서 다시 열기.
 
-1. `/context`로 토큰 사용량 확인
+### "토큰이 너무 빨리 소모됨"
+1. `/context`로 확인
 2. 150K+ → `/compact` 또는 `/clear`
-3. 글로벌 CLAUDE.md가 4줄인지 확인
+3. 로그 파일 읽기 요청 하지 않기
+
+---
+
+## 절대 하지 말 것
+
+| 금지 | 이유 |
+|------|------|
+| `C:\`에서 Claude 열기 | 프로젝트 설정 미로드 |
+| Obsidian에서 STATE 편집 | SoT 충돌 |
+| /sync 안 하고 세션 닫기 | STATE/LOG 유실 |
+| 한 세션에 여러 프로젝트 | 컨텍스트 오염 |
+| Claude에게 로그 읽기 요청 | 토큰 낭비 (Obsidian에서 직접 보기) |
+| git push --force | 히스토리 손실 (permissions.deny로 차단됨) |
+
+---
 
 ## 관련 문서
 - [[ai-roles]] — AI별 역할 상세
 - [[claude-code-guide]] — Skills, Hooks 상세
 - [[git-workflow]] — Git 흐름
+- [[philosophy]] — 왜 이렇게 하는가
