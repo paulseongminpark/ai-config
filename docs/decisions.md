@@ -268,6 +268,30 @@ C:\dev\CLAUDE.md                  # 모든 프로젝트 공통 (한국어, Git �
 
 **영향**: architecture.md Layer 3 설명 업데이트. 실제 코드/훅 변경 없음.
 
+## D-016: 보안 강화 + 동기화 가드 + 토큰 최적화 (2026-02-17)
+
+**결정**: Perplexity 심층 리서치 + GPT 보안 분석 + Claude 시스템 감사를 종합하여, 3개 영역 일괄 개선.
+
+**보안 강화**:
+- permissions.deny 전 프로젝트 통일: `rm -r`, `git clean`, `curl`, `wget` 추가
+- `.ssh`, `secrets` 경로 Read deny 추가
+- 경로 포맷 `/` 통일 (Windows `\\` 혼용 제거)
+- deny는 "보조 가드레일"로 인식 전환 — OS 샌드박스가 1차 방어
+
+**동기화 가드**:
+- Stop hook에 STATE.md 미커밋 차단 추가 (exit 1)
+- PostToolUse를 정밀 matcher로 전환 (STATE/CLAUDE/docs 변경만 감지)
+- PROMPT_VERSION 필드 도입 (스냅샷 drift 감지용, 주간 체크)
+
+**토큰 최적화**:
+- ai-config default model opus → 삭제 (sonnet 기본)
+- /compact 규칙 강화: 30턴/100K → 권장, 150K+ → 필수
+- MEMORY.md 활성화 (세션 간 패턴 기록)
+
+**근거**: 3자 교차검증 (Claude 감사 + Perplexity 리서치 + GPT 보안 분석)
+
+**영향**: settings.json 3개 + docs 8개 + _SNAPSHOT.md 3개 + rules 1개 + MEMORY.md 1개
+
 ## 관련 문서
 - [[philosophy]] — 결정의 배경 철학
 - [[architecture]] — 결정이 반영된 구조

@@ -91,7 +91,8 @@ Claude: /sync 실행
 | force push 금지 | 히스토리 손실 |
 | main 브랜치 직접 작업 | 1인 프로젝트, 브랜치 오버헤드 불필요 |
 | .env 커밋 금지 | 보안 |
-| permissions.deny로 차단 | `Bash(git push --force*)` |
+| permissions.deny로 차단 | `git push --force`, `git clean`, `rm -rf`, `rm -r` |
+| curl/wget 차단 | 데이터 유출 방지 |
 
 ## Obsidian 연동 (Junction)
 

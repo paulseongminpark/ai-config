@@ -80,8 +80,11 @@ C:\dev\
     │
     ├─ PostToolUse Hook ──→ "STATE 변경됨. /sync 실행 권장."
     │
-    └─ Stop Hook ──→ copy-session-log.py ──→ 03_evidence/
-                     (Layer 3: 프롬프트 단위 세션 회고)
+    ├─ Stop Hook #1 ──→ copy-session-log.py ──→ 03_evidence/
+    │                    (Layer 3: 프롬프트 단위 세션 회고)
+    │
+    └─ Stop Hook #2 ──→ STATE.md 미커밋 감지 → exit 1 차단
+                         (/sync 강제 게이트)
 ```
 
 ## GitHub 구성

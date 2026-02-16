@@ -183,8 +183,11 @@ claude                               ← 새 세션 시작
 ```
 나: "/sync"           ← STATE + LOG 갱신 + push (필수)
 (세션 닫기)
-→ Stop hook 자동      ← Evidence 백업 (copy-session-log.py)
+→ Stop hook #1        ← Evidence 백업 (copy-session-log.py)
+→ Stop hook #2        ← STATE.md 미커밋 차단 (/sync 안 했으면 exit 1)
 ```
+
+**Stop /sync 가드**: `/sync` 잊어도 시스템이 차단해줌. 하지만 습관적으로 먼저 하는 게 좋음.
 
 ---
 
@@ -194,7 +197,15 @@ claude                               ← 새 세션 시작
 |------|------|
 | 월 | `/morning`으로 전체 파악 → 주간 목표 설정 |
 | 수 | Gemini로 중간 검증 (구조, STATE 정합성) |
-| 금 | `/sync` 최종 → STATE에 주간 회고 추가 |
+| 금 | `/sync` 최종 → STATE에 주간 회고 + **프롬프트 버전 체크** |
+
+### 금요일 프롬프트 버전 체크
+
+각 `_SNAPSHOT.md`의 `PROMPT_VERSION`과 실제 플랫폼 설정을 비교:
+- GPT: Custom GPT Instructions와 `gpt/master_prompt.md` 비교
+- Gemini: Gem 설정과 `gemini/master_prompt.md` 비교
+- Perplexity: Space 설정과 `perplexity/master_prompt.md` 비교
+- 불일치 발견 시: 플랫폼 → 스냅샷 파일로 재복사 + PROMPT_VERSION 갱신
 
 ---
 
@@ -214,8 +225,10 @@ claude                               ← 새 세션 시작
 
 ### "토큰이 너무 빨리 소모됨"
 1. `/context`로 확인
-2. 150K+ → `/compact` 또는 `/clear`
-3. 로그 파일 읽기 요청 하지 않기
+2. 30턴 또는 100K → `/compact` 권장
+3. 150K+ → `/compact` 필수 또는 `/clear`
+4. 탐색/검색은 서브에이전트 위임 (메인 컨텍스트 보호)
+5. 로그 파일 읽기 요청 하지 않기
 
 ---
 

@@ -101,16 +101,17 @@ MEMORY.md                     ← 200줄 자동 로드 (세션 간 기억)
 
 **문제**: 복잡한 자동화는 디버깅이 어렵고, 깨지면 전체가 멈춘다.
 
-**해결**: 자동화는 2가지만.
+**해결**: 자동화는 3가지만.
 1. **post-commit hook**: STATE.md 변경 시 자동 push (5줄 스크립트)
-2. **Stop hook**: 세션 종료 시 Evidence 백업 (1줄 명령)
+2. **Stop hook — Evidence**: 세션 종료 시 Evidence 백업 (copy-session-log.py)
+3. **Stop hook — /sync 가드**: STATE.md 미커밋 시 세션 종료 차단 (exit 1)
 
 나머지는 명시적 명령:
 - `/sync` → 사용자가 직접 호출
 - `/handoff` → 사용자가 직접 호출
 - git push → post-commit이 자동으로 하되, 실패해도 수동으로 가능
 
-→ "마법" 같은 자동화보다 "예측 가능한" 수동 + 약간의 편의.
+→ "마법" 같은 자동화보다 "예측 가능한" 수동 + 게이트 기반 안전장치.
 
 ## 안티패턴 (하지 말 것)
 

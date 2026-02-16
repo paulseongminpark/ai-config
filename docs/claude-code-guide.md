@@ -23,7 +23,7 @@ MEMORY.md                        ← 자동 메모리 (200줄, 세션 간 유지
 ```
 
 **글로벌 규칙** (`~/.claude/rules/`):
-- `token_budget.md`: 1세션=1목표, 150K+→/compact, 탐색은 서브에이전트
+- `token_budget.md`: 1세션=1목표, 30턴/100K→/compact 권장, 150K+→필수, 탐색은 서브에이전트
 - `git_workflow.md`: STATE 변경 시 commit+push, 커밋 메시지 형식
 
 **프로젝트** (`01_orchestration/.claude/CLAUDE.md`):
@@ -102,7 +102,7 @@ Hooks는 특정 이벤트 발생 시 자동으로 실행되는 셸 명령이다.
 
 ### 현재 설정
 
-**settings.json 내 hooks**:
+**settings.json 내 hooks (전 프로젝트 통일)**:
 
 ```json
 {
@@ -112,7 +112,8 @@ Hooks는 특정 이벤트 발생 시 자동으로 실행되는 셸 명령이다.
         "matcher": "Edit|Write",
         "hooks": [{
           "type": "command",
-          "command": "echo STATE 변경됨. /sync 실행 권장."
+          "command": "bash -c '...STATE.md|CLAUDE.md|docs 변경 시에만 /sync 권장...'",
+          "async": true
         }]
       }
     ],
@@ -120,7 +121,13 @@ Hooks는 특정 이벤트 발생 시 자동으로 실행되는 셸 명령이다.
       {
         "hooks": [{
           "type": "command",
-          "command": "python ...\\scripts\\copy-session-log.py orchestration"
+          "command": "python C:/dev/01_projects/01_orchestration/scripts/copy-session-log.py {project}"
+        }]
+      },
+      {
+        "hooks": [{
+          "type": "command",
+          "command": "bash -c '...STATE.md 미커밋 시 exit 1로 차단...'"
         }]
       }
     ]
@@ -128,7 +135,9 @@ Hooks는 특정 이벤트 발생 시 자동으로 실행되는 셸 명령이다.
 }
 ```
 
-**포트폴리오 추가**: PostToolUse에서 `npx prettier --write $TOOL_INPUT_PATH` 실행
+**PostToolUse 정밀 matcher**: STATE.md, CLAUDE.md, docs/*.md 변경만 감지 (일반 코드 수정은 무시)
+**포트폴리오 추가**: .tsx/.ts/.css/.json 파일에만 prettier 자동 실행
+**Stop /sync 가드**: STATE.md가 미커밋 상태면 세션 종료 차단 (exit 1)
 
 ### matcher 문법
 
@@ -167,28 +176,39 @@ allowed-tools: Read, Glob, Grep, Bash
 
 ### settings.json 내 permissions
 
+**공통 deny 규칙 (전 프로젝트 통일)**:
 ```json
 {
   "permissions": {
-    "allow": [
-      "Read", "Edit", "Write", "Glob", "Grep",
-      "Bash(git *)", "Bash(npm *)", "Bash(npx *)"
-    ],
     "deny": [
       "Read(.env*)",
-      "Read(C:\\dev\\03_evidence/**)",
+      "Read(C:/dev/03_evidence/**)",
+      "Read(**/.ssh/**)",
+      "Read(**/secrets/**)",
       "Bash(rm -rf *)",
-      "Bash(git push --force*)"
+      "Bash(rm -r *)",
+      "Bash(git push --force*)",
+      "Bash(git clean *)",
+      "Bash(curl *)",
+      "Bash(wget *)"
     ]
   }
 }
 ```
 
-### 왜 .claudeignore 대신 permissions.deny인가
+**ai-config 추가 제한**: Edit은 docs/gpt/gemini/perplexity 경로만 허용, git push는 origin main만 허용
 
-- `.claudeignore`는 우회 가능 (보안 이슈)
-- `permissions.deny`는 Claude Code 엔진 레벨에서 차단
-- 더 명시적이고 감사(audit) 가능
+### 보안 계층 (deny는 보조)
+
+| 계층 | 역할 | 수준 |
+|------|------|------|
+| OS 샌드박스 | 파일시스템/네트워크 격리 | 1차 방어 |
+| permissions.deny | Claude Code 엔진 차단 | 2차 가드레일 |
+| CLAUDE.md 규칙 | 행동 지침 | 3차 소프트 제한 |
+
+- `.claudeignore`는 우회 가능 → 사용 안 함
+- `permissions.deny`는 엔진 레벨 차단이지만 절대적이진 않음
+- 진짜 민감한 자원은 OS 권한으로 보호하는 것이 원칙
 
 ## MEMORY.md
 

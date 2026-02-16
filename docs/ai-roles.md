@@ -35,9 +35,11 @@
 
 | 이벤트 | 동작 |
 |--------|------|
-| PostToolUse (Edit/Write) | "STATE 변경됨. /sync 실행 권장." |
-| PostToolUse (Edit/Write *.tsx) | auto prettier (포트폴리오) |
+| SessionStart | 전체 프로젝트 git log + status 표시 (ai-config) |
+| PostToolUse (Edit/Write) | STATE.md/CLAUDE.md/docs 변경 시에만 "/sync 권장" (정밀 matcher) |
+| PostToolUse (Edit/Write) | auto prettier (포트폴리오, .tsx/.ts/.css/.json만) |
 | Stop | Evidence 백업 (copy-session-log.py) |
+| Stop | STATE.md 미커밋 차단 (/sync 가드, exit 1) |
 
 → 상세: [[claude-code-guide]]
 
