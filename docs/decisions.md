@@ -257,6 +257,17 @@ C:\dev\CLAUDE.md                  # 모든 프로젝트 공통 (한국어, Git �
 
 **참고**: Claude Code 공식 문서 (Settings, Agents, Teams, Hooks, Permissions, Best Practices)
 
+## D-015: Layer 3 역할 재정의 — 프롬프트 단위 세션 회고
+
+**결정**: Layer 3 (Stop Hook + copy-session-log.py)의 역할을 "Evidence 백업"에서 "프롬프트 단위 세션 회고"로 재정의.
+
+**이유**:
+- 단순 백업은 03_evidence에 파일만 쌓이고 활용되지 않음
+- 세션 회고로 재정의하면 패턴 발견, 반복 실수 추적에 활용 가능
+- copy-session-log.py와 Stop Hook은 현행 유지 (구현 변경 없음, 역할 재해석)
+
+**영향**: architecture.md Layer 3 설명 업데이트. 실제 코드/훅 변경 없음.
+
 ## 관련 문서
 - [[philosophy]] — 결정의 배경 철학
 - [[architecture]] — 결정이 반영된 구조

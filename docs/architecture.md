@@ -42,11 +42,10 @@ C:\dev\
 ├── 02_ai_config\                   ← Git repo (GitHub: ai-config, private)
 │   │                                  Obsidian 볼트
 │   ├── docs/                       ← 이 문서들
-│   ├── gpt/                        ← GPT 프롬프트
-│   ├── gemini/                     ← Gemini 프롬프트
-│   ├── perplexity/                 ← Perplexity 프롬프트
+│   ├── gpt/                        ← GPT 프롬프트 (스냅샷)
+│   ├── gemini/                     ← Gemini 프롬프트 (스냅샷)
+│   ├── perplexity/                 ← Perplexity 프롬프트 (스냅샷)
 │   ├── claude/                     ← Claude 계층 설명
-│   ├── handoff_templates/          ← AI간 핸드오프 템플릿
 │   └── projects/                   ← Junction Points (읽기 전용 뷰)
 │       ├── orchestration → 01_orchestration/context
 │       └── portfolio → 02_portfolio/context
@@ -82,6 +81,7 @@ C:\dev\
     ├─ PostToolUse Hook ──→ "STATE 변경됨. /sync 실행 권장."
     │
     └─ Stop Hook ──→ copy-session-log.py ──→ 03_evidence/
+                     (Layer 3: 프롬프트 단위 세션 회고)
 ```
 
 ## GitHub 구성

@@ -17,7 +17,6 @@
       "Edit(C:/dev/02_ai_config/gpt/**)",
       "Edit(C:/dev/02_ai_config/gemini/**)",
       "Edit(C:/dev/02_ai_config/perplexity/**)",
-      "Edit(C:/dev/02_ai_config/handoff_templates/**)",
       "Bash(git status *)",
       "Bash(git diff *)",
       "Bash(git log *)",
@@ -44,6 +43,16 @@
             "type": "command",
             "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r \".tool_input.file_path // empty\"); if echo \"$FILE\" | grep -qE \"(CLAUDE\\.md|docs/.*\\.md|master_prompt\\.md)\"; then echo \"⚠️  중요 파일 변경. /sync 권장\"; fi'",
             "async": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:\\dev\\01_projects\\01_orchestration\\scripts\\copy-session-log.py ai-config"
           }
         ]
       }

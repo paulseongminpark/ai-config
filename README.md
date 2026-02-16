@@ -7,11 +7,10 @@
 ```
 C:\dev\02_ai_config\
 ├── docs/                   ← 아키텍처, 워크플로우, 결정 기록
-├── gpt/                    ← GPT Plus 프롬프트
-├── gemini/                 ← Gemini Pro 프롬프트
-├── perplexity/             ← Perplexity Pro 프롬프트
+├── gpt/                    ← GPT Plus 프롬프트 (스냅샷)
+├── gemini/                 ← Gemini Pro 프롬프트 (스냅샷)
+├── perplexity/             ← Perplexity Pro 프롬프트 (스냅샷)
 ├── claude/                 ← Claude Code 계층 설명
-├── handoff_templates/      ← AI 간 핸드오프 템플릿
 ├── projects/               ← Junction Points (읽기 전용)
 │   ├── orchestration → C:/dev/01_projects/01_orchestration/context
 │   └── portfolio → C:/dev/01_projects/02_portfolio/context
@@ -171,7 +170,7 @@ jq -s '.' /tmp/*.json | claude -p "Create dashboard"
 
 - **[daily-workflow.md](docs/daily-workflow.md)**: 일일 워크플로우 가이드
 - **[architecture.md](docs/architecture.md)**: 전체 시스템 아키텍처
-- **[decisions.md](docs/decisions.md)**: 주요 결정 기록 (D-001 ~ D-014)
+- **[decisions.md](docs/decisions.md)**: 주요 결정 기록 (D-001 ~ D-015)
 - **[claude-code-guide.md](docs/claude-code-guide.md)**: Claude Code 설정 상세
 
 ## 관련 프로젝트
