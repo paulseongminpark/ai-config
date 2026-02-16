@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/git-workflow.md",
+                "file": "projects/orchestration/logs/2026-02-15.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "git-workflow"
+              "title": "2026-02-15"
             }
           }
         ]
@@ -183,6 +183,8 @@
   },
   "active": "2332c97dc7234d2f",
   "lastOpenFiles": [
+    "claude/hierarchy.md",
+    "docs/git-workflow.md",
     "docs/decisions.md.tmp.52956.1771233899452",
     "perplexity/spaces/sedFjkBio",
     "perplexity/spaces/sedJD8zyX",
@@ -193,16 +195,13 @@
     "gpt/projects/sedib1QX6",
     "gpt/sedDtGjEp",
     "gemini/sedXU7Je3",
-    "docs/sedTYxaKp",
     "docs/daily-workflow.md",
     "docs/INDEX.md",
     "docs/philosophy.md",
     "docs/ai-roles.md",
-    "docs/git-workflow.md",
     "projects/portfolio/STATE.md",
     "projects/orchestration/STATE.md",
     "projects/orchestration/logs/2026-02-15.md",
-    "claude/hierarchy.md",
     "handoff_templates/to_perplexity.md",
     "perplexity/spaces/portfolio.md",
     "perplexity/spaces/orchestration.md",

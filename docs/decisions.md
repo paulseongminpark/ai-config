@@ -176,6 +176,39 @@ cmd /c mklink /J "대상" "원본"
 
 **영향**: 11개 프롬프트 파일 일괄 업데이트 (2026-02-16)
 
+## D-013: 계층적 CLAUDE.md + ai-config .claude/ 추가
+
+**결정**: C:\dev\CLAUDE.md (공통) + 각 프로젝트 CLAUDE.md (개별) 하이브리드 구조.
+
+**이유**:
+- CLAUDE.md는 부모 디렉토리도 재귀 로드 (settings.json과 달리)
+- 공통 규칙 중복 제거 → 토큰 절약
+- ai-config도 문서 수정 시 /sync 필요 → .claude/ 추가
+
+**구조**:
+```
+C:\dev\CLAUDE.md                  # 모든 프로젝트 공통 (한국어, Git 규칙)
+├── 01_projects\01_orchestration\
+│   ├── CLAUDE.md                 # 프로젝트 고유
+│   └── .claude\                  # permissions, hooks, skills
+├── 01_projects\02_portfolio\
+│   └── (동일)
+└── 02_ai_config\
+    ├── CLAUDE.md                 # 문서 관리 규칙
+    └── .claude\                  # ← 신규 추가
+        ├── settings.json         # model: opus, permissions
+        ├── agents\orchestrator.md # 멀티 프로젝트 검증
+        └── skills\sync-all\      # 전체 동기화
+```
+
+**새 기능**:
+- SessionStart 훅: 모든 프로젝트 최근 변경 자동 로드
+- PostToolUse 훅: 중요 파일 수정 시 /sync 알림
+- Orchestrator agent: 크로스 프로젝트 의존성 체크 (opus)
+- /sync-all 스킬: 3개 프로젝트 일괄 커밋+푸시
+
+**영향**: ai-config에서도 /sync 사용 가능, 세션 시작 시 전체 현황 자동 표시
+
 ## 관련 문서
 - [[philosophy]] — 결정의 배경 철학
 - [[architecture]] — 결정이 반영된 구조

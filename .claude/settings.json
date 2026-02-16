@@ -1,0 +1,52 @@
+{
+  "model": "opus",
+  "permissions": {
+    "deny": [
+      "Read(C:/dev/03_evidence/**)",
+      "Edit(C:/dev/03_evidence/**)",
+      "Read(.env*)",
+      "Bash(rm -rf *)",
+      "Bash(git push --force*)",
+      "Bash(curl *)",
+      "Bash(wget *)"
+    ],
+    "allow": [
+      "Read(C:/dev/01_projects/**)",
+      "Read(C:/dev/02_ai_config/**)",
+      "Edit(C:/dev/02_ai_config/docs/**)",
+      "Edit(C:/dev/02_ai_config/gpt/**)",
+      "Edit(C:/dev/02_ai_config/gemini/**)",
+      "Edit(C:/dev/02_ai_config/perplexity/**)",
+      "Edit(C:/dev/02_ai_config/handoff_templates/**)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git commit *)",
+      "Bash(git push origin main)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"=== Multi-Project Status ===\"; for d in C:/dev/01_projects/*/; do echo; echo \"$(basename $d):\"; git -C \"$d\" log --oneline -2 2>/dev/null | head -2; git -C \"$d\" status -s 2>/dev/null | head -3; done'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r \".tool_input.file_path // empty\"); if echo \"$FILE\" | grep -qE \"(CLAUDE\\.md|docs/.*\\.md|master_prompt\\.md)\"; then echo \"⚠️  중요 파일 변경. /sync 권장\"; fi'",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
