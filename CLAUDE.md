@@ -18,9 +18,9 @@ C:\dev\02_ai_config\
 
 ## 작업 패턴
 - 프롬프트 수정 → raw URL 확인
-- 문서 수정 → /sync로 커밋
+- 문서 수정 → /sync-all로 커밋
 - 주요 결정 → docs/decisions.md에 기록
-- 세션 종료 전 → /sync 필수
+- 세션 종료 전 → /sync-all 필수
 
 ## 크로스 프로젝트
 - orchestration STATE: `C:/dev/01_projects/01_orchestration/context/STATE.md`
