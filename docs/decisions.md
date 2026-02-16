@@ -209,6 +209,54 @@ C:\dev\CLAUDE.md                  # 모든 프로젝트 공통 (한국어, Git �
 
 **영향**: ai-config에서도 /sync 사용 가능, 세션 시작 시 전체 현황 자동 표시
 
+## D-014: 엣지한 오케스트레이션 시스템 (Opus + Agents + Teams)
+
+**결정**: Claude Code 고급 기능을 활용한 프로덕션급 오케스트레이션 시스템 구축.
+
+**핵심 구성**:
+
+1. **계층적 설정 (Settings Hierarchy)**
+   - C:\dev\CLAUDE.md: 전역 공통 규칙 (모든 프로젝트 자동 로드)
+   - 프로젝트별 CLAUDE.md: 개별 오버라이드
+   - .claude/settings.json: permissions + hooks (프로젝트 고유)
+   - .claude/rules/: 조건부 규칙 (경로 기반)
+
+2. **Orchestrator Agent (opus + memory)**
+   - 3개 프로젝트 상태 수집 및 크로스 검증
+   - 의존성 체크, 미커밋 감지, 장기 블로커 추적
+   - memory로 패턴 학습 및 세션 간 인사이트 축적
+
+3. **자동화 Hooks**
+   - SessionStart: 전체 프로젝트 최근 변경 자동 표시
+   - PostToolUse: 중요 파일 수정 시 /sync 알림
+   - PreToolUse: STATE.md 직접 편집 차단 (계획, 미구현)
+   - Stop: 품질 게이트 (계획, 미구현)
+
+4. **Skills**
+   - /sync-all: 3개 프로젝트 일괄 커밋+푸시 (opus, fork context)
+   - /morning: 전체 브리핑 (이미 존재, haiku, Explore agent)
+
+5. **Permissions (바운더리)**
+   - deny: evidence 디렉토리, .env, rm -rf, force push, curl
+   - allow: 프로젝트 소스, git 읽기 명령, 안전한 git 쓰기
+
+6. **Agent Teams (실험적, 선택)**
+   - 병렬 크로스 프로젝트 검증
+   - 독립 컨텍스트 윈도우로 토큰 오염 방지
+   - 높은 비용 주의 → 주간 검증에만 사용
+
+**설계 원칙**:
+- **토큰 효율**: 계층적 로드로 중복 제거, haiku/sonnet/opus 선택적 사용
+- **바운더리 강제**: permissions.deny가 allow보다 우선 (하드 제한)
+- **실시간 동기화**: SessionStart 훅으로 세션 시작 시 자동 컨텍스트 주입
+- **자율 학습**: Orchestrator의 memory로 패턴 축적
+
+**트레이드오프**:
+- 장점: 완전 자동화, 크로스 검증, 확장 가능
+- 단점: 초기 설정 복잡도, 훅 디버깅 어려움
+
+**참고**: Claude Code 공식 문서 (Settings, Agents, Teams, Hooks, Permissions, Best Practices)
+
 ## 관련 문서
 - [[philosophy]] — 결정의 배경 철학
 - [[architecture]] — 결정이 반영된 구조
