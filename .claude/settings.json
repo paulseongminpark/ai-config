@@ -63,7 +63,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'DIRTY=0; for d in C:/dev/01_projects/*/; do if git -C \"$d\" status --porcelain context/STATE.md 2>/dev/null | grep -q .; then DIRTY=1; fi; done; exit $DIRTY'"
+            "command": "bash -c 'export LANG=en_US.UTF-8; DIRTY=0; for d in C:/dev/01_projects/*/; do if git -C \"$d\" status --porcelain context/STATE.md 2>/dev/null | grep -q .; then echo \"STATE.md uncommitted in $(basename $d). Run /sync before exit.\"; DIRTY=1; fi; done; if [ $DIRTY -eq 1 ]; then exit 1; fi'"
           }
         ]
       }
