@@ -7,8 +7,8 @@
 
 [컨텍스트]
 "today" → STATE 2개 읽고 합쳐 출력:
-- 오케: https://paulseongminpark.github.io/orchestration/context/STATE.md
-- 포트: https://paulseongminpark.github.io/portfolio_20260215/context/STATE.md
+- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md
+- 포트: https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md
 
 [아키텍처]
 - SoT: Git (각 프로젝트 context/STATE.md)

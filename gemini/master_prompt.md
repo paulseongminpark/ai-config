@@ -7,8 +7,8 @@
 
 [STATE]
 "today" 입력 시:
-- 오케: https://paulseongminpark.github.io/orchestration/context/STATE.md
-- 포트: https://paulseongminpark.github.io/portfolio_20260215/context/STATE.md
+- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md
+- 포트: https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md
 
 [역할]
 Gemini = 대량 검증/리뷰 (100만 토큰 컨텍스트 활용)

@@ -10,7 +10,7 @@ React, Vite, CSS, 웹 디자인, UX, 접근성.
 시스템 설계 제외.
 
 [STATE]
-- 포트: https://paulseongminpark.github.io/portfolio_20260215/context/STATE.md
+- 포트: https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md
 
 [기술 스택]
 - React + Vite, vanilla CSS, hash routing

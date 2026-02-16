@@ -13,12 +13,12 @@ Claude Code ──→ git commit ──→ git push ──→ GitHub ──→ G
 
 ## GitHub Repos
 
-| Repo | 용도 | 유형 | URL |
-|------|------|------|-----|
-| orchestration | 오케스트레이션 시스템 | public | github.com/paulseongminpark/orchestration |
-| portfolio_20260215 | 포트폴리오 프로젝트 | public | github.com/paulseongminpark/portfolio_20260215 |
-| ai-config | AI 설정 + Obsidian 볼트 | private | github.com/paulseongminpark/ai-config |
-| portfolio (구) | 이전 포트폴리오 | archived | — |
+| Repo               | 용도                  | 유형       | URL                                            |
+| ------------------ | ------------------- | -------- | ---------------------------------------------- |
+| orchestration      | 오케스트레이션 시스템         | public   | github.com/paulseongminpark/orchestration      |
+| portfolio_20260215 | 포트폴리오 프로젝트          | public   | github.com/paulseongminpark/portfolio_20260215 |
+| ai-config          | AI 설정 + Obsidian 볼트 | private  | github.com/paulseongminpark/ai-config          |
+| portfolio (구)      | 이전 포트폴리오            | archived | —                                              |
 
 ## GitHub Pages
 
@@ -32,8 +32,8 @@ Claude Code ──→ git commit ──→ git push ──→ GitHub ──→ G
 https://paulseongminpark.github.io/{repo-name}/context/STATE.md
 ```
 
-- 오케: https://paulseongminpark.github.io/orchestration/context/STATE.md
-- 포트: https://paulseongminpark.github.io/portfolio_20260215/context/STATE.md
+- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md
+- 포트: https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md
 
 ### 중요 파일
 

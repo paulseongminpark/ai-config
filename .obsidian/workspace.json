@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "perplexity/spaces/portfolio.md",
+                "file": "docs/git-workflow.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "portfolio"
+              "title": "git-workflow"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 255.5
   },
   "right": {
     "id": "028dc276ceba07c4",
@@ -183,39 +183,40 @@
   },
   "active": "2332c97dc7234d2f",
   "lastOpenFiles": [
+    "docs/decisions.md.tmp.52956.1771233899452",
+    "perplexity/spaces/sedFjkBio",
+    "perplexity/spaces/sedJD8zyX",
+    "perplexity/sed3gzZpN",
+    "handoff_templates/sedjsWtjD",
+    "handoff_templates/sedlpbCKK",
+    "gpt/projects/sedYKxdTZ",
+    "gpt/projects/sedib1QX6",
+    "gpt/sedDtGjEp",
+    "gemini/sedXU7Je3",
+    "docs/sedTYxaKp",
+    "docs/daily-workflow.md",
+    "docs/INDEX.md",
+    "docs/philosophy.md",
+    "docs/ai-roles.md",
+    "docs/git-workflow.md",
+    "projects/portfolio/STATE.md",
+    "projects/orchestration/STATE.md",
+    "projects/orchestration/logs/2026-02-15.md",
+    "claude/hierarchy.md",
+    "handoff_templates/to_perplexity.md",
+    "perplexity/spaces/portfolio.md",
     "perplexity/spaces/orchestration.md",
     "perplexity/research_template.md",
-    "docs/architecture.md.tmp.31276.1771088509903",
     "perplexity/master_prompt.md",
     "gemini/master_prompt.md",
-    "projects/orchestration/logs/2026-02-15.md",
-    "projects/orchestration/logs",
     "gemini/validation_checklist.md",
     "gpt/projects/cowork.md",
     "gpt/master_prompt.md",
     "gpt/projects/portfolio.md",
-    "handoff_templates/to_perplexity.md",
     "handoff_templates/to_gpt.md",
     "handoff_templates/to_gemini.md",
     "docs/claude-code-guide.md",
-    "claude/hierarchy.md",
-    "docs/daily-workflow.md",
-    "docs/git-workflow.md",
     "docs/decisions.md",
-    "docs/architecture.md",
-    "docs/ai-roles.md",
-    "perplexity/spaces/portfolio.md",
-    "docs/decisions.md.tmp.31276.1771088068934",
-    "docs/daily-workflow.md.tmp.31276.1771088018670",
-    "docs/git-workflow.md.tmp.31276.1771087984901",
-    "docs/philosophy.md",
-    "docs/INDEX.md",
-    "docs/claude-code-guide.md.tmp.31276.1771087953665",
-    "docs/ai-roles.md.tmp.31276.1771087909424",
-    "docs/philosophy.md.tmp.31276.1771087862513",
-    "docs/architecture.md.tmp.31276.1771087818667",
-    "perplexity/spaces/orchestration.md.tmp.31276.1771087764804",
-    "projects/orchestration/STATE.md",
-    "projects/portfolio/STATE.md"
+    "docs/architecture.md"
   ]
 }

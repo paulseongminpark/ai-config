@@ -161,6 +161,21 @@ cmd /c mklink /J "대상" "원본"
 - ~~토큰 임계값 알림~~ → Hook 미지원
 - ~~세션 시작 시 자동 STATE 읽기~~ → 토큰 낭비
 
+## D-012: GitHub Pages URL → raw.githubusercontent.com
+
+**결정**: STATE.md 접근을 GitHub Pages 대신 raw.githubusercontent.com 사용.
+
+**이유**:
+- GPT가 GitHub Pages URL을 10번 중 8번 읽기 실패
+- raw URL이 직접 파일 접근으로 더 안정적
+- 캐싱 이슈 없음
+
+**변경**:
+- 오케: `https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md`
+- 포트: `https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md`
+
+**영향**: 11개 프롬프트 파일 일괄 업데이트 (2026-02-16)
+
 ## 관련 문서
 - [[philosophy]] — 결정의 배경 철학
 - [[architecture]] — 결정이 반영된 구조

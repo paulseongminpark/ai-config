@@ -1,7 +1,7 @@
 # GPT 핸드오프 템플릿
 
 ## 현재 상태
-STATE URL: https://paulseongminpark.github.io/orchestration/context/STATE.md
+STATE URL: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md
 
 ## 요청
 [요청 내용]
