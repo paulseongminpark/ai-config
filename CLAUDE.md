@@ -9,9 +9,9 @@
 ```
 C:\dev\02_ai_config\
 ├── docs/           ← 아키텍처, 워크플로우, 결정 기록
-├── gpt/            ← GPT 프롬프트
-├── gemini/         ← Gemini 프롬프트
-├── perplexity/     ← Perplexity 프롬프트
+├── gpt/            ← GPT 프롬프트 (스냅샷)
+├── gemini/         ← Gemini 프롬프트 (스냅샷)
+├── perplexity/     ← Perplexity 프롬프트 (스냅샷)
 ├── claude/         ← Claude 계층 설명
 └── projects/       ← Junction (읽기 전용)
 ```
