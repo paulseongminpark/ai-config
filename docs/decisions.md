@@ -292,6 +292,48 @@ C:\dev\CLAUDE.md                  # 모든 프로젝트 공통 (한국어, Git �
 
 **영향**: settings.json 3개 + docs 8개 + _SNAPSHOT.md 3개 + rules 1개 + MEMORY.md 1개
 
+## D-017: 모바일→데스크톱 메모 동기화 파이프라인 (2026-02-17)
+
+**결정**: GitHub를 중간 저장소로 사용하는 daily-memo 파이프라인 구축.
+
+**구조**:
+```
+핸드폰 Claude Code → daily-memo/INBOX.md (GitHub)
+                                ↓
+데스크톱 SessionStart hook → 로컬 TODO.md에 동기화
+```
+
+**구성 요소**:
+1. **GitHub 레포**: `paulseongminpark/daily-memo` (private)
+   - INBOX.md: 핸드폰에서 항목 추가
+   - 자동 정리: 동기화 후 헤더만 남기고 비움
+
+2. **데스크톱 자동화**:
+   - `C:/dev/.claude/scripts/sync-daily-memo.sh`: gh CLI로 동기화
+   - `C:/dev/.claude/settings.local.json`: SessionStart hook 추가
+   - `/sync-memo` skill: 수동 실행 옵션
+
+3. **타겟**: `C:/dev/02_ai_config/docs/TODO.md`
+
+**이유**:
+- 이동 중 떠오르는 아이디어를 핸드폰으로 즉시 기록
+- 데스크톱 세션 시작 시 자동으로 로컬 TODO에 반영
+- GitHub가 모바일/데스크톱 간 단일 진실 소스
+- Claude Code CLI가 양쪽에서 모두 사용 가능
+
+**대안 (미채택)**:
+- Obsidian 모바일 동기화 → 설정 복잡, 충돌 위험
+- 직접 GitHub 앱 수정 → 핸드폰에서 불편
+- 별도 메모 앱 + 수동 복사 → 자동화 없음
+
+**트레이드오프**:
+- 장점: 완전 자동화, Claude Code 네이티브, 단순 구조
+- 단점: GitHub API 의존성, 중복 체크 미구현
+
+**날짜 형식**: `yyyy-mm-dd hh:mm` (핸드폰에서 추가 시)
+
+**영향**: C:/dev 전체에서 SessionStart 시 자동 동기화, /sync-memo skill 추가
+
 ## 관련 문서
 - [[philosophy]] — 결정의 배경 철학
 - [[architecture]] — 결정이 반영된 구조
