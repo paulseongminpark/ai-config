@@ -90,6 +90,7 @@ model: haiku                  ← (선택) 모델 지정
 Hooks는 특정 이벤트 발생 시 자동으로 실행되는 셸 명령이다.
 
 **지원되는 이벤트**:
+- `SessionStart`: 세션 시작 시 (최초 1회)
 - `PreToolUse`: 도구 실행 전
 - `PostToolUse`: 도구 실행 후
 - `Notification`: 알림 발생 시
@@ -107,6 +108,22 @@ Hooks는 특정 이벤트 발생 시 자동으로 실행되는 셸 명령이다.
 ```json
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [{
+          "type": "slash-command",
+          "command": "clear",
+          "async": false
+        }]
+      },
+      {
+        "hooks": [{
+          "type": "slash-command",
+          "command": "morning",
+          "async": false
+        }]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -135,6 +152,7 @@ Hooks는 특정 이벤트 발생 시 자동으로 실행되는 셸 명령이다.
 }
 ```
 
+**SessionStart daily-memo**: 세션 시작 시 `/clear` + `/morning` 자동 실행 → 전체 프로젝트 브리핑
 **PostToolUse 정밀 matcher**: STATE.md, CLAUDE.md, docs/*.md 변경만 감지 (일반 코드 수정은 무시)
 **포트폴리오 추가**: .tsx/.ts/.css/.json 파일에만 prettier 자동 실행
 **Stop /sync 가드**: STATE.md가 미커밋 상태면 세션 종료 차단 (exit 1)

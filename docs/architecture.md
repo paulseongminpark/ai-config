@@ -72,6 +72,10 @@ C:\dev\
 ```
 [Claude Code 작업]
     │
+    ├─ SessionStart Hook ──→ /morning Skill ──→ 모든 STATE.md 읽기
+    │                                             │
+    │                                             └→ 자동 브리핑 (완료/진행/막힌것 + 추천)
+    │
     ├─ STATE.md 수정 ──→ git commit ──→ post-commit hook ──→ auto push
     │                                                          │
     │                                        GitHub Pages ←────┘
@@ -86,6 +90,31 @@ C:\dev\
     └─ Stop Hook #2 ──→ STATE.md 미커밋 감지 → exit 1 차단
                          (/sync 강제 게이트)
 ```
+
+### Daily-Memo 파이프라인 (D-017)
+
+```
+[세션 시작]
+    │
+    └─ SessionStart Hook (settings.json)
+        │
+        ├─ clear hook ──→ /clear 실행 (컨텍스트 초기화)
+        │
+        └─ morning hook ──→ /morning Skill 실행
+            │
+            ├─ orchestration STATE.md 읽기
+            ├─ portfolio STATE.md 읽기
+            ├─ (확장 가능: 다른 프로젝트)
+            │
+            └─ 자동 브리핑 출력:
+                완료 N / 진행 N / 막힌것 N
+                추천: [다음 작업 제안]
+```
+
+**특징**:
+- `/morning` 수동 입력 불필요
+- 매 세션 시작 시 자동 현황 파악
+- Haiku 모델로 토큰 효율적
 
 ## GitHub 구성
 

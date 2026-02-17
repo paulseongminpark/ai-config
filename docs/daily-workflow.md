@@ -31,18 +31,20 @@ claude
 - `settings.json` (permissions, hooks) 활성화됨
 - Skills (/sync, /status 등) 사용 가능
 
-### 2. `/morning` 입력
+### 2. 자동 브리핑 (SessionStart Hook)
 
-```
-> /morning
-```
+세션이 시작되면 **자동으로**:
+1. `/clear` 실행 (컨텍스트 초기화)
+2. `/morning` Skill 실행 → 모든 프로젝트 STATE.md 읽기
+3. 브리핑 출력:
 
-→ 모든 프로젝트 STATE.md 읽고 한줄 요약:
 ```
 오케: 완료 13 / 진행 0 / 막힌것 0 — Phase 1-6 완료
 포트: 완료 6 / 진행 0 / 막힌것 4 — W6부터 재개
 추천: 포트폴리오 막힌 것 해결 우선
 ```
+
+**수동 입력 불필요.** SessionStart hook이 자동 실행.
 
 ### 3. (선택) GPT에서 "today"
 
