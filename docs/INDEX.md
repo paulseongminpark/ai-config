@@ -13,6 +13,7 @@
 | [[git-workflow]] | Git 워크플로우 — SoT, auto-push, GitHub Pages |
 | [[daily-workflow]] | 일일 사용법 — 아침부터 저녁까지 |
 | [[decisions]] | 주요 결정 기록 — 무엇을 왜 선택/폐기했는가 |
+| [[TODO]] | 할 일 목록 — 앞으로 하고싶은것 |
 
 ## AI 프롬프트 파일 (스냅샷)
 
