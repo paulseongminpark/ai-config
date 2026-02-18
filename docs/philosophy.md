@@ -6,7 +6,7 @@
 
 이 시스템은 한 사람이 여러 AI를 동시에 활용하면서도 **혼돈에 빠지지 않는 방법**을 설계한 것이다.
 
-## 6가지 설계 원칙
+## 7가지 설계 원칙
 
 ### 1. 단일 진실 소스 (Single Source of Truth)
 
@@ -112,6 +112,42 @@ MEMORY.md                     ← 200줄 자동 로드 (세션 간 기억)
 - git push → post-commit이 자동으로 하되, 실패해도 수동으로 가능
 
 → "마법" 같은 자동화보다 "예측 가능한" 수동 + 게이트 기반 안전장치.
+
+### 7. 세션 간 기억 (Auto Memory)
+
+**문제**: 세션이 끝나면 Claude는 모든 것을 잊는다. 다음 세션에 같은 실수를 반복하고, 같은 질문을 다시 하고, 같은 패턴을 다시 발견한다.
+
+**해결**: 세션 종료 시 자동으로 반복 패턴/에러/선호사항을 감지하여 `pending.md`에 기록. 검증 후 `MEMORY.md`로 이동. MEMORY.md는 매 턴 자동 로드된다.
+
+**3단계 구조**:
+```
+Phase 1 — 자동 감지 (SessionEnd Hook)
+  세션 종료 → analyze-session.sh → pending.md 누적
+  감지 대상: 도구 반복 패턴, 에러+해결 쌍, 사용자 명시 선호사항
+
+Phase 2 — 검증 (/sync-all)
+  pending.md 항목 → 4가지 기준으로 Claude가 판단
+  기준: 2회 이상 확인 / MEMORY.md 중복 없음 / CLAUDE.md 모순 없음 / 다음 세션에 유용
+
+Phase 3 — 주간 정리 (/memory-review)
+  MEMORY.md 품질 관리: 중복 제거, CLAUDE.md 모순 제거, 200줄 제한 유지
+```
+
+**설계 원칙**:
+- 자동 감지 → 수동 검증: 자동화가 후보를 만들고, 사람이 최종 판단
+- MEMORY.md 200줄 제한: 매 턴 자동 로드되므로 토큰 자원
+- 사실만 기록: 한 세션에서만 나온 패턴은 보류. 2회 이상 확인된 것만
+
+**파일 위치**:
+```
+~/.claude/scripts/analyze-session.sh   ← 세션 분석
+~/.claude/hooks/session-stop.sh        ← SessionEnd Hook
+~/.claude/projects/C--dev/memory/
+  ├── pending.md                        ← 검증 대기 후보
+  └── MEMORY.md                         ← 검증 완료 (매 턴 로드)
+```
+
+→ Claude의 기억을 세션 밖으로 확장하되, 노이즈가 아닌 신뢰할 수 있는 것만 남긴다.
 
 ## 안티패턴 (하지 말 것)
 
