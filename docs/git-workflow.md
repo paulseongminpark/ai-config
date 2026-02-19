@@ -116,17 +116,24 @@ C:\dev\02_ai_config\projects\portfolio     → 02_portfolio\context
 - Claude Code가 STATE.md 수정 → Obsidian에서 즉시 보임
 - Obsidian에서 편집 가능하지만 **하지 말 것** (SoT 충돌)
 
-## Evidence 백업
+## Evidence 백업 + Stop Hook
 
-### 동작
+### Stop Hook 전체 구성 (3단계)
 
-세션 종료(Stop hook) 시 `copy-session-log.py` 실행:
+세션 종료 시 Stop hook이 순서대로 실행:
 
 ```
-세션 .jsonl 파일 → 파싱 → 03_evidence/claude/{project}/{date}.md
+Stop Hook #1: copy-session-log.py
+    세션 .jsonl 파일 → 파싱 → 03_evidence/claude/{project}/{date}.md
+
+Stop Hook #2: STATE.md 미커밋 차단
+    git status 확인 → 미커밋 감지 → exit 1 (세션 종료 차단)
+
+Stop Hook #3: analyze-session.sh (Auto Memory)
+    세션 .jsonl 파싱 → 인사이트 추출 → pending.md 축적
 ```
 
-### 출력 경로
+### Evidence 출력 경로
 
 ```
 C:\dev\03_evidence\
@@ -137,11 +144,18 @@ C:\dev\03_evidence\
     └── 2026-02-04_portfolio_text_finalization.md
 ```
 
-### 특징
+### Evidence 특징
 
 - Git 추적 안 함 (로컬 전용)
 - 코드 블록 자동 제거 (가독성)
 - UTC → KST 시간 변환
+
+### Auto Memory 특징
+
+- `~/.claude/scripts/analyze-session.sh` 실행
+- 결과 → `~/.claude/projects/{hash}/memory/pending.md`
+- `/sync-all` 또는 `/memory-review` 호출 시 MEMORY.md로 승격
+- Git 추적 안 함 (로컬 전용)
 
 ## 관련 문서
 - [[architecture]] — 전체 구조

@@ -24,22 +24,39 @@
 
 ### Skills (사용자가 호출하는 명령)
 
+**프로젝트별**:
+
 | Skill | 동작 | 위치 |
 |-------|------|------|
-| `/sync` | STATE.md 갱신 → git commit → push | 프로젝트별 |
-| `/handoff <ai> <내용>` | 다른 AI용 핸드오프 문서 생성 | 프로젝트별 |
-| `/status` | 현황 요약 (Haiku 서브에이전트) | 프로젝트별 |
-| `/morning` | 전체 프로젝트 브리핑 | 글로벌 |
+| `/sync` | STATE.md 갱신 → git commit → push | orchestration, portfolio |
+| `/handoff <ai> <내용>` | 다른 AI용 핸드오프 문서 생성 | orchestration |
+| `/status` | 현황 요약 (Haiku 서브에이전트) | orchestration, portfolio |
+
+**글로벌** (`~/.claude/skills/`):
+
+| Skill | 동작 |
+|-------|------|
+| `/morning` | 전체 프로젝트 브리핑 (Haiku) |
+| `/sync-all` | 3개 repo 일괄 커밋+푸시 |
+| `/memory-review` | Auto Memory 주간 정리 |
+| `/research` | Perplexity 스타일 리서치 |
+| `/todo` | TODO.md 관리 |
+| `/token-check` | 현재 컨텍스트 토큰 확인 |
+| `/token-mode` | 토큰 절약 모드 전환 |
+| `/verify` | 프로젝트 규칙 검증 |
+| `/verify-log-format` | 로그 포맷 검증 |
+| `/verify-project-rules` | 프로젝트 규칙 전체 검증 |
 
 ### Hooks (자동 트리거)
 
 | 이벤트 | 동작 |
 |--------|------|
-| SessionStart | 전체 프로젝트 git log + status 표시 (ai-config) |
+| SessionStart | `/clear` 실행 후 `/morning` Skill 실행 → 전체 프로젝트 브리핑 |
 | PostToolUse (Edit/Write) | STATE.md/CLAUDE.md/docs 변경 시에만 "/sync 권장" (정밀 matcher) |
 | PostToolUse (Edit/Write) | auto prettier (포트폴리오, .tsx/.ts/.css/.json만) |
-| Stop | Evidence 백업 (copy-session-log.py) |
+| Stop | Evidence 백업 (copy-session-log.py → 03_evidence/) |
 | Stop | STATE.md 미커밋 차단 (/sync 가드, exit 1) |
+| Stop | Auto Memory 분석 (analyze-session.sh → pending.md) |
 
 → 상세: [[claude-code-guide]]
 

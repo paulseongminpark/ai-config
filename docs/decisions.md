@@ -334,6 +334,43 @@ C:\dev\CLAUDE.md                  # 모든 프로젝트 공통 (한국어, Git �
 
 **영향**: C:/dev 전체에서 SessionStart 시 자동 동기화, /sync-memo skill 추가
 
+## D-018: Auto Memory 시스템 (2026-02-18)
+
+**결정**: Stop Hook + analyze-session.sh + MEMORY.md 자동화로 세션 간 메모리 구축.
+
+**구조**:
+```
+세션 종료 (Stop Hook)
+    → analyze-session.sh 실행
+    → 인사이트 추출 → pending.md 축적
+    ↓
+/sync-all 또는 /memory-review 호출
+    → sync-memory.sh / memory-review.sh 실행
+    → pending.md 검증 → MEMORY.md 병합
+```
+
+**구성 요소**:
+1. `~/.claude/scripts/analyze-session.sh`: Stop Hook에서 실행, 세션 JSONL 파싱
+2. `~/.claude/scripts/sync-memory.sh`: /sync-all에서 실행, pending → MEMORY 병합
+3. `~/.claude/scripts/memory-review.sh`: /memory-review에서 실행, 주간 정리
+4. `~/.claude/skills/memory-review/`: 사용자 호출 스킬
+
+**이유**:
+- 세션마다 반복하는 실수/패턴을 자동으로 기록
+- MEMORY.md 200줄 제한 → 검증 단계를 거쳐 질 높은 메모리만 유지
+- Stop Hook으로 완전 자동 (별도 행동 불필요)
+
+**3단계 워크플로우**:
+- Phase 1 (자동): SessionEnd → pending.md
+- Phase 2 (수동): /sync-all → MEMORY.md 검증+이동
+- Phase 3 (주간): /memory-review → 오래된 항목 정리
+
+**트레이드오프**:
+- 장점: 세션 간 컨텍스트 유지, 반복 실수 방지
+- 단점: Stop Hook 실행 시간 증가, pending.md 관리 필요
+
+**영향**: Stop Hook 추가, 글로벌 skills 3개 추가 (sync-all, memory-review 확장)
+
 ## 관련 문서
 - [[philosophy]] — 결정의 배경 철학
 - [[architecture]] — 결정이 반영된 구조

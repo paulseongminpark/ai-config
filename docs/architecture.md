@@ -87,8 +87,19 @@ C:\dev\
     ├─ Stop Hook #1 ──→ copy-session-log.py ──→ 03_evidence/
     │                    (Layer 3: 프롬프트 단위 세션 회고)
     │
-    └─ Stop Hook #2 ──→ STATE.md 미커밋 감지 → exit 1 차단
-                         (/sync 강제 게이트)
+    ├─ Stop Hook #2 ──→ STATE.md 미커밋 감지 → exit 1 차단
+    │                    (/sync 강제 게이트)
+    │
+    └─ Stop Hook #3 ──→ analyze-session.sh ──→ pending.md
+                         (Auto Memory: 세션 인사이트 자동 추출)
+                              │
+                         /sync-all 호출
+                              │
+                         sync-memory.sh ──→ MEMORY.md (검증 후 승격)
+                              │
+                         /memory-review (주간)
+                              │
+                         memory-review.sh ──→ MEMORY.md 정리
 ```
 
 ### Daily-Memo 파이프라인 (D-017)

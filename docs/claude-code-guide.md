@@ -76,12 +76,28 @@ model: haiku                  ← (선택) 모델 지정
 
 ### 현재 등록된 Skills
 
+**프로젝트별**:
+
 | Skill | 위치 | 동작 |
 |-------|------|------|
-| `/sync` | 프로젝트별 | STATE.md 읽기 → 세션 작업 반영 → git add + commit + push |
+| `/sync` | orchestration, portfolio | STATE.md 읽기 → 세션 작업 반영 → git add + commit + push |
 | `/handoff` | orchestration | `<gpt\|gemini\|perplexity> <요청>` → AI별 핸드오프 문서 |
-| `/status` | 프로젝트별 | STATE + git log + git status → 요약 (Haiku) |
-| `/morning` | 글로벌 | 모든 프로젝트 STATE 읽기 → 전체 브리핑 (Haiku) |
+| `/status` | orchestration, portfolio | STATE + git log + git status → 요약 (Haiku) |
+
+**글로벌** (`~/.claude/skills/`):
+
+| Skill | 동작 |
+|-------|------|
+| `/morning` | 모든 프로젝트 STATE 읽기 → 전체 브리핑 (Haiku) |
+| `/sync-all` | 3개 repo (orchestration, portfolio, ai-config) 일괄 커밋+푸시 |
+| `/memory-review` | Auto Memory 주간 정리 (pending.md → MEMORY.md 병합/정리) |
+| `/research` | Perplexity 스타일 리서치 워크플로우 |
+| `/todo` | C:/dev/02_ai_config/docs/TODO.md 관리 |
+| `/token-check` | 현재 컨텍스트 토큰 사용량 확인 |
+| `/token-mode` | 토큰 절약 모드 전환 (Haiku 서브에이전트 우선) |
+| `/verify` | 프로젝트 규칙 검증 |
+| `/verify-log-format` | 로그 파일 포맷 검증 |
+| `/verify-project-rules` | 프로젝트 전체 규칙 검증 (5레벨, 넘버링 등) |
 
 ## Hooks
 
@@ -146,16 +162,23 @@ Hooks는 특정 이벤트 발생 시 자동으로 실행되는 셸 명령이다.
           "type": "command",
           "command": "bash -c '...STATE.md 미커밋 시 exit 1로 차단...'"
         }]
+      },
+      {
+        "hooks": [{
+          "type": "command",
+          "command": "bash ~/.claude/scripts/analyze-session.sh → pending.md (Auto Memory)"
+        }]
       }
     ]
   }
 }
 ```
 
-**SessionStart daily-memo**: 세션 시작 시 `/clear` + `/morning` 자동 실행 → 전체 프로젝트 브리핑
+**SessionStart**: `/clear` 실행 후 `/morning` Skill 자동 실행 → 전체 프로젝트 브리핑
 **PostToolUse 정밀 matcher**: STATE.md, CLAUDE.md, docs/*.md 변경만 감지 (일반 코드 수정은 무시)
 **포트폴리오 추가**: .tsx/.ts/.css/.json 파일에만 prettier 자동 실행
 **Stop /sync 가드**: STATE.md가 미커밋 상태면 세션 종료 차단 (exit 1)
+**Stop Auto Memory**: `analyze-session.sh` 실행 → 세션 인사이트를 `pending.md`에 축적 → `/sync-all` 또는 `/memory-review` 호출 시 MEMORY.md로 승격
 
 ### matcher 문법
 

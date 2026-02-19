@@ -185,11 +185,25 @@ claude                               ← 새 세션 시작
 ```
 나: "/sync"           ← STATE + LOG 갱신 + push (필수)
 (세션 닫기)
-→ Stop hook #1        ← Evidence 백업 (copy-session-log.py)
+→ Stop hook #1        ← Evidence 백업 (copy-session-log.py → 03_evidence/)
 → Stop hook #2        ← STATE.md 미커밋 차단 (/sync 안 했으면 exit 1)
+→ Stop hook #3        ← Auto Memory: analyze-session.sh → pending.md 축적
 ```
 
 **Stop /sync 가드**: `/sync` 잊어도 시스템이 차단해줌. 하지만 습관적으로 먼저 하는 게 좋음.
+
+**Auto Memory**: Stop hook이 세션 인사이트를 자동 추출. `/sync-all` 실행 시 MEMORY.md로 승격.
+
+### Auto Memory 워크플로우
+
+```
+매 세션 (자동):
+    세션 종료 → analyze-session.sh → pending.md에 추가
+
+주기적 (수동):
+    /sync-all → pending.md 검증 → MEMORY.md 병합
+    /memory-review → 오래된 항목 정리 (주 1회 권장)
+```
 
 ---
 
@@ -200,6 +214,7 @@ claude                               ← 새 세션 시작
 | 월 | `/morning`으로 전체 파악 → 주간 목표 설정 |
 | 수 | Gemini로 중간 검증 (구조, STATE 정합성) |
 | 금 | `/sync` 최종 → STATE에 주간 회고 + **프롬프트 버전 체크** |
+| 주 1회 | `/memory-review` → Auto Memory 정리 + `/docs-review` → stale 문서 점검 |
 
 ### 금요일 프롬프트 버전 체크
 
