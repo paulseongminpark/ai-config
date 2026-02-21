@@ -375,3 +375,28 @@ C:\dev\CLAUDE.md                  # 모든 프로젝트 공통 (한국어, Git �
 - [[philosophy]] — 결정의 배경 철학
 - [[architecture]] — 결정이 반영된 구조
 - [[claude-code-guide]] — 기술적 구현
+
+## D-019: daily-memo 브랜치 구조 확정 (2026-02-21)
+
+**결정**: 핸드폰 Claude Code cloud env 제약으로 인해 브랜치 기반 Inbox 파이프라인 확정.
+
+**구조**:
+```
+핸드폰 Claude Code (cloud env)
+    → claude/add-inbox-hello-71SP3 브랜치 → Inbox.md 누적
+    ↓
+컴퓨터 /todo → 브랜치 vs main 비교 → 새 항목 merge → TODO.md 반영
+```
+
+**배경**:
+- cloud env는 GitHub 연동 시 항상 새 브랜치 자동 생성 (main 직접 push 불가)
+- CLAUDE.md 지침으로도 우회 불가 — 앱 레벨 제약
+
+**결정 이유**:
+- 브랜치 고정: `claude/add-inbox-hello-71SP3` 핸드폰 전용 유지
+- main은 merge된 최종 상태만 보관
+- /todo 스킬이 브랜치-main diff 후 자동 merge
+
+**D-017과의 차이**:
+- D-017: INBOX.md → main 직접 push (이상적 설계)
+- D-019: Inbox.md → 브랜치 누적 → /todo 시 merge (cloud env 실제 제약 반영)
